@@ -138,26 +138,15 @@ class UnrollingDataset(Dataset):
         )
 
     def benchmark_uris(self) -> Iterable[str]:
+        # FIXME: yield from (f"benchmark://unrolling-v0{k}" for k in self._benchmarks.keys())
         yield from self._benchmarks.keys()
 
     def benchmark(self, uri: str) -> Benchmark:
         if uri in self._benchmarks:
+            # FIXME: return self._benchmarks[uri.path]
             return self._benchmarks[uri]
         else:
             raise LookupError("Unknown program name")
-
-
-# TODO: replace after pip sync with GitHub
-'''
-    def benchmark_uris(self) -> Iterable[str]:
-        yield from (f"benchmark://unrolling-v0{k}" for k in self._benchmarks.keys())
-
-    def benchmark_from_parsed_uri(self, uri: BenchmarkUri) -> Benchmark:
-        if uri.path in self._benchmarks:
-            return self._benchmarks[uri.path]
-        else:
-            raise LookupError("Unknown program name")
-'''
 
 
 # Register the unrolling example service on module import. After importing this module,
