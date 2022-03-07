@@ -98,18 +98,8 @@ class UnrollingDataset(Dataset):
         )
 
         self._benchmarks = {
-            "benchmark://unrolling-v0/offsets1": Benchmark.from_file_contents(  # FIXME: "/offsets1": Benchmark.from_file_contents(
-                "benchmark://unrolling-v0/offsets1",
-                # FIXME: self.preprocess(BENCHMARKS_PATH / "offsets1.c"),
-                self.preprocess(os.path.join(
-                    BENCHMARKS_PATH, "offsets1.c")),  # FIXME: why did we have to add "bytes(..., "utf8")" conversion
-            ),
-            "benchmark://unrolling-v0/conv2d": Benchmark.from_file_contents(  # FIXME: "/conv2d": Benchmark.from_file_contents(
-                "benchmark://unrolling-v0/conv2d",
-                # FIXME: self.preprocess(BENCHMARKS_PATH / "conv2d.c"),
-                self.preprocess(os.path.join(
-                    BENCHMARKS_PATH, "conv2d.c")),  # FIXME: why did we have to add "bytes(..., "utf8")" conversion
-            ),
+            "/offsets1": Benchmark.from_file_contents(self.preprocess(BENCHMARKS_PATH / "offsets1.c"), "Ir data".encode("utf-8")),
+            "/conv2d": Benchmark.from_file_contents(self.preprocess(BENCHMARKS_PATH / "conv2d.c"), "Ir data".encode("utf-8")),
         }
 
     @staticmethod
