@@ -18,6 +18,7 @@ from typing import Iterable
 
 import compiler_gym
 from compiler_gym.datasets import Benchmark, Dataset
+from compiler_gym.datasets.uri import BenchmarkUri
 from compiler_gym.envs.llvm.llvm_benchmark import get_system_includes
 from compiler_gym.spaces import Reward
 from compiler_gym.third_party import llvm
@@ -118,7 +119,7 @@ class UnrollingDataset(Dataset):
         # this pre-processing, or do it on the service side, once support for
         # multi-file benchmarks lands.
         cmd = [
-            "clang",  # str(llvm.clang_path()), # FIXME
+            str(llvm.clang_path()),
             "-E",
             "-o",
             "-",
@@ -134,14 +135,14 @@ class UnrollingDataset(Dataset):
             timeout=300,
         )
 
-    def benchmark_uris(self) -> Iterable[str]:
+    def benchmark_from_parsed_uri(self, uri: BenchmarkUri) -> Iterable[str]:
         # FIXME: yield from (f"benchmark://unrolling-v0{k}" for k in self._benchmarks.keys())
         yield from self._benchmarks.keys()
 
     def benchmark(self, uri: str) -> Benchmark:
         if uri in self._benchmarks:
             # FIXME: return self._benchmarks[uri.path]
-            return self._benchmarks[uri]
+            return self._benchmarks[uri.path]
         else:
             raise LookupError("Unknown program name")
 
